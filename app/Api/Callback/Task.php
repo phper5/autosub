@@ -16,6 +16,9 @@ class Task
         $task_id = $request->input('task_id','');
         $task = \App\Task::find($task_id);
         $result = $request->input('result',[]);
+        if (is_string($result)) {
+            $result = json_decode($result,true);
+        }
         if (is_array($result)) {
             foreach ($result as $key =>$val) {
                 $task->$key = $val;
