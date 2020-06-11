@@ -11,6 +11,29 @@ use Illuminate\Http\Request;
 
 class Task
 {
+    public function finished(Request $request)
+    {
+        $task_id = $request->input('task_id','');
+        $task = \App\Task::find($task_id);
+        $result = $request->input('result',[]);
+        if (is_array($result)) {
+            foreach ($result as $key =>$val) {
+                $task->$key = $val;
+            }
+        }
+        $status = \App\Task::STATUS_FINISH;
+        $args = json_decode($task->args,true);
+        if (!$task->sub1)
+            $status = \App\Task::STATUS_PROCESS;
+        if ($args['is_need_trans']&&!$task->sub2) {
+            $status = \App\Task::STATUS_PROCESS;
+        }
+        if ($args['is_need_merge']&&!$task->sub3) {
+            $status = \App\Task::STATUS_PROCESS;
+        }
+        $task->status = $status;
+        $task->save();
+    }
     public function getOne(Request $request)
     {
         $test_task_id = $request->input('task_id','');
@@ -26,6 +49,7 @@ class Task
                 ->where('status', \App\Task::STATUS_QUEUE)
                 ->update(['status' => \App\Task::STATUS_PROCESS])) {
                 $data ['task'] =$task->toResponse(['sourceDetail'=>true,'args'=>true]);
+                $data ['task']['finished_url'] = config('app.url').'/api/callback/task/finished';
                 $params = [
                     'user_id'=>$task->user_id,
                     'task_id'=>$task->id,
