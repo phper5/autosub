@@ -71,7 +71,7 @@ class Inputoss
             $task->sub3 = $resource->id;
         }
         $status = \App\Task::STATUS_FINISH;
-        $args = json_decode($this->args,true);
+        $args = json_decode($task->args,true);
         if (!$task->sub1)
             $status = \App\Task::STATUS_PROCESS;
         if ($args['is_need_trans']&&!$task->sub2) {
