@@ -22,17 +22,6 @@
             <div class="flex-center mt-8 mb-8">
 
                         <div class="home-upload-widget-wrapper">
-                            <div class="col-md-12 mb-4 mt-5 row">
-                                <div class="ml-3 line_height_35">选择您的音视频语言</div>
-                                <select class="ml-3" id="_language_id">
-                                    <?php foreach (config('lan.site') as $key=>$val) {
-                                       ?><option value="<?php echo $key;?>"><?php echo $val;?></option><?php
-                                    }?>
-                                </select>
-                                <input type="radio" value="0" name="compress_type" class="ml-5 _display_none">
-                                <div class="ml-3 line_height_35 _display_none">压缩到(kb)</div>
-                                <input class="input_100 _display_none" id="compress_target_size">
-                            </div>
                             <div  class="card card-with-shadow card-rounded-max card-without-border upload-widget-card">
                                 <div  class="card-body text-center inpaint-demo-drop_area">
                                     <div  class="mt-5 mb-4 d-none d-md-block">
@@ -57,65 +46,83 @@
             </div>
         </div>
     </section>
-    <div  class="download-modal" style="display: none">
-        <div  class="download-modal-backdrop"></div>
-        <div class="download-modal-inner">
-            <div class="download-modal-content" >
-                <h2>
-                    下载图片
-                </h2>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="img-wrapper d-block mx-auto">
-                            <img id="_download_preview" src="">
-                        </div>
-                    </div>
-                    <div class="col-md-4 d-flex " style="flex-direction: column; flex-direction: column; justify-content: flex-end; ">
-{{--                        <p class="text-primary h3 mt-2 mb-0">--}}
-{{--                            1 点滴豆/图--}}
-{{--                        </p>--}}
-{{--                        <p>--}}
-{{--                            <span class="hover-tooltip" >--}}
-{{--                                <a class="text-muted small" target="_blank" >--}}
-{{--                                    点滴豆是什么?--}}
-{{--                                </a>--}}
-{{--                            </span>--}}
-{{--                        </p>--}}
-                        <div class="price_info"><span class="original-price"><i>￥</i>5</span>
-                            <span><i>￥</i>1</span></div>
-                    </div>
-                </div>
-                <div class="text-muted small mt-2">
-                    图像大小
-                    <span id="_download_image_info">1600 × 1600</span>
-                </div>
+    <section class="container" id="_choose_language" style="display: none">
+        <div class="container">
 
-                <hr>
-
-                <div class="text-center">
-
-                    <div class="mb-4" id="_download_id_box">
-                        <a onclick="closeDownload();return true" class="btn btn-primary" href="" target="_blank" id="_download_id">下载文件</a>
-                    </div>
-                    <div class="mb-4" id="_pay_box" style="display: none">
-                        <div class="col-md-12" id="_pay_qrcode">
-
-                        </div>
-                        <div class="col-md-12 mt-4" >
-                            <span class="alipay">支付宝</span>
-                        </div>
-
-                    </div>
-                    <hr>
-
-                    <div class="mt-2 small _display_none ">
-                        注册用户，最高优惠至<span><i>￥</i>0.10</span> <a href="#">登录</a>
-                    </div>
-                </div>
-                <button title="Close (Esc)" onclick="closeDownload(this)" type="button" class="mfp-close">×</button>
+            <div class="flex-center position-ref">
+                    <i class="iconfont icon-meiti font-size15 ml-1"></i>
             </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">您的文件已成功上传，请选择音视频语音</div>
+                                <div class="card-body">
+                                    <form method="POST" action="/autosub">
+                                        <div class="form-group row">
+                                            <label for="name" class="col-md-4 col-form-label text-md-right">视频语音</label>
+                                            <div class="col-md-6">
+                                                <select id="_language">
+                                                    <?php
+                                                    foreach (config('lan.site') as $key =>$val) {
+                                                        ?>
+                                                        <option value="<?php echo $key;?>" ><?php echo $val;?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="name" class="col-md-4 col-form-label text-md-right">翻译为</label>
+                                            <div class="col-md-6">
+                                                <select id="is_need_trans" onchange="toggle_trans_box()">
+                                                    <option value="0" selected = "selected">不需要翻译</option>
+                                                    <?php
+                                                    foreach (config('lan.site') as $key =>$val) {
+                                                    ?>
+                                                    <option value="<?php echo $key;?>" ><?php echo $val;?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div id="trans_box">
+                                            <div class="form-group row">
+                                                <label for="name" class="col-md-4 col-form-label text-md-right">多语言字幕是否合并</label>
+                                                <div class="col-md-6">
+                                                    <input type="radio" name="is_sub_merge" value="0" onclick="toggle_sub_order();">不合并
+                                                    <input type="radio" name="is_sub_merge" value="1" onclick="toggle_sub_order();" checked="checked" >合并
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" id="_sub_order">
+                                                <label for="name" class="col-md-4 col-form-label text-md-right">字幕合并顺序</label>
+                                                <div class="col-md-6">
+                                                    <input type="radio" name="sub_order" value="0" checked="checked">源语言在前
+                                                    <input type="radio" name="sub_order" value="1">翻译语言在前
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row mb-0">
+                                            <div class="col-md-6 offset-md-4">
+                                                <button type="button" class="btn btn-primary" onclick="start_task();return false;">
+                                                    开始生成字幕
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
         </div>
-    </div>
+    </section>
     <section class="container" id="_upload_file_box" style="display: none">
         <div  class="text-center pt-3 pt-md-4 inpaint-demo-drop_area">
             <button  class="btn btn-primary btn-lg "  onclick="javascript:$('#btn_upload').click();">
@@ -232,14 +239,9 @@
             </div>
         </div>
     </section>
-    <input type="hidden" class="_display_none" value="watermark-long-text" id="_services_id">
+    <input type="hidden" class="_display_none" value="autosub" id="_services_id">
     <style>
-        ._workBox{
-            display: none;
-        }
-        #save{
-            display: none;
-        }
+
         #range-wrap input{
             /**transform: rotate(-90deg);**/
             width: 150px;height: 20px;transform-origin: 75px 75px;    border-radius: 15px;outline: none;position: relative;
@@ -254,18 +256,11 @@
         #range-wrap input[type=range]::-webkit-slider-thumb{-webkit-appearance: none;height: 20px;width: 20px;margin-top: -1px;
             background: #ffffff;border-radius: 50%;box-shadow: 0 0 8px #00CCFF;position: relative;z-index: 999;}
 
-        .color-group{
-            margin-left: 10px;
-            /*position:fixed;width: 30px;left: 30px;top:50%;transform: translate(0,-150px)*/
-        }
+
         .color-group ul{list-style: none;display: flex;}
         .color-group ul li{width: 30px;height: 30px;margin: 10px 0;border-radius: 50%;box-sizing: border-box;border:3px solid white;box-shadow: 0 0 8px rgba(0,0,0,0.2);cursor: pointer;transition: 0.3s;}
         .color-group ul li.active{box-shadow:0 0 15px #00CCFF;}
 
-        .tools{
-            /**position: fixed;left:0;bottom: 30px; width:100%;**/
-            display: flex;justify-content: center;text-align: center
-        }
         .tools button{border-radius: 50%;width: 50px;height: 50px; background-color: rgba(255,255,255,0.7);border: 1px solid #eee;outline: none;cursor: pointer;box-sizing: border-box;margin: 0 10px;text-align: center;color:#ccc;line-height: 50px;box-shadow:0 0 8px rgba(0,0,0,0.1); transition: 0.3s;}
         .tools button.active,.tools button:active{box-shadow: 0 0 15px #00CCFF; color:#00CCFF;}
         .tools button i{font-size: 24px;}
@@ -282,238 +277,7 @@
             .color-group ul li.active{box-shadow:0 0 10px #00CCFF;}
             #range-wrap{right:auto;left: 20px;}
         }
-        .toolinfo{
-            vertical-align: bottom;
-            width:4rem;
-        }
-        #drawTools {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-        #drawTools {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-        .toolbox {
-            display: flex;
-            margin: 0 10px;
-            flex-direction: column;
-        }
-        .toolbox ul {
-            margin: 0 auto;
-            padding: 0;
-        }
-        #drawing-board{
-            /**background: #999999;**/
-            display: block;cursor: crosshair;
-            width: 300px;
-            height: 150px;
-            background-size: 100%;
-        }
+
     </style>
-    <script type="application/javascript">
-        let canvas = document.getElementById("drawing-board");
-        let ctx = canvas.getContext("2d");
-        let eraser = document.getElementById("eraser");
-        let brush = document.getElementById("brush");
-        let reSetCanvas = document.getElementById("clear");
-        let aColorBtn = document.getElementsByClassName("color-item");
-        let save = document.getElementById("save");
-        let undo = document.getElementById("undo");
-        let range = document.getElementById("range");
-        let clear = false;
-        let activeColor = 'black';
-        let lWidth = document.getElementById("range").value;
-        // canvas.width = '700';
-        // canvas.height = '700';
-        setCanvasBg('white');
-        listenToUser(canvas);
-        getColor();
-        function setCanvasBg(color) {
-            return ;
-            ctx.fillStyle = color;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "black";
-        }
 
-        function getXy(e) {
-
-            let x = e.clientX;
-            let y = e.clientY;
-            let l = canvas.getBoundingClientRect().left;
-            let t = canvas.getBoundingClientRect().top;
-            point = {"x": x-l, "y": y-t};
-            // point = {"x": x+0, "y": y+0};
-            return point;
-        }
-
-        function listenToUser(canvas) {
-            let painting = false;
-            let lastPoint = {x: undefined, y: undefined};
-
-            if (document.body.ontouchstart !== undefined) {
-                canvas.ontouchstart = function (e) {
-                    this.firstDot = ctx.getImageData(0, 0, canvas.width, canvas.height);//在这里储存绘图表面
-                    saveData(this.firstDot);
-                    painting = true;
-                    // let x = e.touches[0].clientX;
-                    // let y = e.touches[0].clientY;
-                    lastPoint=getXy(e.touches[0]);
-                    // lastPoint = {"x": x, "y": y};
-                    ctx.save();
-                    drawCircle(lastPoint.x, lastPoint.y, 0);
-                };
-                canvas.onwheel = function(event){
-                    event.preventDefault();
-                };
-                canvas.onmousewheel = function(event){
-                    event.preventDefault();
-                };
-                canvas.ontouchmove = function (e) {
-                    if (painting) {
-                        // let x = e.touches[0].clientX;
-                        // let y = e.touches[0].clientY;
-                        // let newPoint = {"x": x, "y": y};
-                        let newPoint=getXy(e.touches[0]);
-                        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
-                        lastPoint = newPoint;
-                    }
-                    e.preventDefault();
-                };
-
-                canvas.ontouchend = function (e) {
-                    painting = false;
-                    e.preventDefault();
-                }
-            } else {
-                canvas.onmousedown = function (e) {
-                    this.firstDot = ctx.getImageData(0, 0, canvas.width, canvas.height);//在这里储存绘图表面
-                    saveData(this.firstDot);
-                    painting = true;
-                    // let x = e.clientX;
-                    // let y = e.clientY;
-                    let point=getXy(e);
-                    ctx.save();
-                    drawCircle(point.x, point.y, 0);
-                };
-                canvas.onmousemove = function (e) {
-                    //console.log('move'+painting);
-
-                    if (painting) {
-                        // let x = e.clientX;
-                        // let y = e.clientY;
-                        // let newPoint = {"x": x, "y": y};
-                        let newPoint=getXy(e);
-                        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y,clear);
-                        lastPoint = newPoint;
-                    }
-                };
-
-                canvas.onmouseup = function () {
-                    painting = false;
-                    //console.log('up'+painting);
-                    lastPoint =  {x: undefined, y: undefined};;
-                };
-
-                canvas.mouseleave = function () {
-                    painting = false;
-                }
-            }
-        }
-
-        function drawCircle(x, y, radius) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(x, y, radius, 0, Math.PI * 2);
-            ctx.fill();
-            if (clear) {
-                ctx.clip();
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.restore();
-            }
-        }
-
-        function drawLine(x1, y1, x2, y2) {
-            ctx.lineWidth = lWidth;
-            ctx.lineCap = "round";
-            ctx.lineJoin = "round";
-            if (clear) {
-                ctx.save();
-                ctx.globalCompositeOperation = "destination-out";
-                ctx.moveTo(x1, y1);
-                ctx.lineTo(x2, y2);
-                ctx.stroke();
-                ctx.closePath();
-                ctx.clip();
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.restore();
-            }else{
-                ctx.moveTo(x1, y1);
-                ctx.lineTo(x2, y2);
-                ctx.stroke();
-                ctx.closePath();
-            }
-        }
-
-        range.onchange = function(){
-            lWidth = this.value;
-        };
-
-        eraser.onclick = function () {
-            clear = true;
-            this.classList.add("active");
-            brush.classList.remove("active");
-        };
-
-        brush.onclick = function () {
-            clear = false;
-            this.classList.add("active");
-            eraser.classList.remove("active");
-        };
-
-        reSetCanvas.onclick = function () {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            //setCanvasBg('white');
-        };
-
-        save.onclick = function () {
-            let imgUrl = canvas.toDataURL("image/png");
-            let saveA = document.createElement("a");
-            document.body.appendChild(saveA);
-            saveA.href = imgUrl;
-            saveA.download = "zspic" + (new Date).getTime();
-            saveA.target = "_blank";
-            saveA.click();
-        };
-
-        function getColor(){
-            for (let i = 0; i < aColorBtn.length; i++) {
-                aColorBtn[i].onclick = function () {
-                    $(brush).click();
-                    for (let i = 0; i < aColorBtn.length; i++) {
-                        aColorBtn[i].classList.remove("active");
-                        this.classList.add("active");
-                        activeColor = this.style.backgroundColor;
-                        ctx.fillStyle = activeColor;
-                        ctx.strokeStyle = activeColor;
-                    }
-                }
-            }
-        }
-
-        let historyDeta = [];
-
-        function saveData (data) {
-            (historyDeta.length === 10) && (historyDeta.shift());// 上限为储存10步，太多了怕挂掉
-            historyDeta.push(data);
-        }
-
-        undo.onclick = function(){
-            if(historyDeta.length < 1) return false;
-            ctx.putImageData(historyDeta[historyDeta.length - 1], 0, 0);
-            historyDeta.pop()
-        };
-    </script>
 @endsection

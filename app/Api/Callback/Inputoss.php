@@ -12,8 +12,25 @@ use Illuminate\Http\Request;
 
 class Inputoss
 {
+    private function task_mp3(Request $request)
+    {
+
+    }
+    private function task_sub1(Request $request)
+    {
+
+    }
+    private function task_sub2(Request $request)
+    {
+
+    }
+    private function task_sub3(Request $request)
+    {
+
+    }
     private function task(Request $request)
     {
+        $step = $request->input('x_step','mp3');
         $bucket = $request->input('bucket');
         $object = $request->input('object');
         $size = $request->input('size');
@@ -34,12 +51,38 @@ class Inputoss
         $resource->user_id = $user_id;
         $resource->size = $size;
         $resource->save();
+//
         $task_id = $request->input('x_task_id');
         $task = \App\Task::find($task_id);
-        $task->target_file = json_encode([$resource->id]);
-        $task->status = \App\Task::STATUS_FINISH;
+//        $task->target_file = json_encode([$resource->id]);
+//        $task->status = \App\Task::STATUS_FINISH;
+//        $task->save();
+        if ($step == 'mp3')
+        {
+            $task->mp3 = $resource->id;
+        }
+        else if ($step == 'sub1'){
+             $task->sub1 = $resource->id;
+        }
+        else if ($step == 'sub2'){
+            $task->sub2 = $resource->id;
+        }
+        else if ($step == 'sub3'){
+            $task->sub3 = $resource->id;
+        }
+        $status = \App\Task::STATUS_FINISH;
+        $args = json_decode($this->args,true);
+        if (!$task->sub1)
+            $status = \App\Task::STATUS_PROCESS;
+        if ($args['is_need_trans']&&!$task->sub2) {
+            $status = \App\Task::STATUS_PROCESS;
+        }
+        if ($args['is_need_merge']&&!$task->sub3) {
+            $status = \App\Task::STATUS_PROCESS;
+        }
+        $task->status = $status;
         $task->save();
-        return (new Response())->setData(['task_id'=>$task->id])->setHeaders(['Cache-Control'=>'no-cache'])->Json();
+        return (new Response())->setData(['resource_id'=>$resource->id])->setHeaders(['Cache-Control'=>'no-cache'])->Json();
 
     }
     private function upload(Request $request)
@@ -86,8 +129,8 @@ class Inputoss
         //print(bucket.sign_url('GET', object, 3600,None,{'x-oss-process':'image/info'}))
 
         $user_id = $request->input('x_user_id');
-        $screen_width = $request->input('x_screen_width',0);
-        $preview_width = $request->input('x_preview_width',0);
+
+
         $resource = new Resource();
         $resource->id = Uuid::uuid();
         $resource->bucket = $bucket;

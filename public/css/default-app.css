@@ -11007,6 +11007,9 @@ blockquote p {
 .font-size5 {
     font-size: 5rem;
 }
+.font-size15 {
+    font-size: 15rem;
+}
 .card-iconfont{
     max-width: 5rem;
 }

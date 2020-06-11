@@ -1,6 +1,130 @@
 var task_queue=new Array();
+function toggle_trans_box() {
+    $val = $("#is_need_trans").val();
+    if ($val == "0" | !$val) {
+        $("#trans_box").hide();
+    }else{
+        $("#trans_box").show();
+    }
+}
+function get_is_need_merge() {
+    t = $('input:radio[name=\'is_sub_merge\']:checked').val();
+    return t;
+}
+function get_sub_order() {
+    t = $('input:radio[name=\'sub_order\']:checked').val();
+    return t;
+}
+function toggle_sub_order() {
+    t = get_is_need_merge();
+    if (t=="0" || !t){
+        $("#_sub_order").hide();
+    }
+    else{
+        $("#_sub_order").show();
+    }
+}
+function updateProcess($dom,num) {
+    if (num == -1){
+        $dom.attr("aria-valuenow",0)
+        $dom[0].style.width="0%";
+        return ;
+    }
+    $current = $dom.attr("aria-valuenow")
+    if(num>0 && num >$current)
+    {
+        $current = num;
+    }else{
+        if ($current<20)
+        {
+            $current+=1;
+        }
+    }
+    if ($current >=100){
+        $current = 99
+    }
+    console.log(num);
+    $dom.attr("aria-valuenow",$current)
+    $dom[0].style.width=$current+"%";
+}
+var last_time =0;
+var last_convert_id = 0;
+function start_task() {
+
+    var timestamp = new Date().getTime();
+    if (timestamp - last_time<3000)
+    {
+        alert("请求频繁，请等待"+(timestamp - last_time)+"毫秒");
+        return;
+    }
+    last_time = timestamp;
+    $resource_id = $("#_resource_id").val();
+    $language = $("#_language").val();
+    $is_need_trans = $("#is_need_trans").val();
+    $is_need_merge = get_is_need_merge();
+    $sub_order = get_sub_order();
+    if (typeof($resource_id) == 'undefined' || !$resource_id) {
+        alert("请先上传文件");
+        return;
+    }
+
+
+    $("._process_info").html('处理中…');
+    updateProcess($(".progress-bar"),-1)
+    $("main section").hide()
+    $("#_upload_file_box").show()
+    let _token = getToken();
+    //修复中
+    $service_type = $("#_services_id").val();
+    $args = {
+        'language':$language,
+        'is_need_trans':$is_need_trans,
+        'is_need_merge':$is_need_merge,
+        'sub_order':$sub_order,
+    };
+    $param_data = {"api_token": _token,'service':$service_type,'resource_id':$resource_id,'args':$args};
+    if (task_queue[last_convert_id])
+    {
+        clearInterval(task_queue[last_convert_id] );
+    }
+    progressTick = setInterval( function () {
+        updateProcess($(".progress-bar"),0)
+    },3000);
+
+    apiRequest('/api/tasks','post',$param_data,{
+        'success':function ($data) {
+            //开始监听
+            console.log($data);
+            last_convert_id = $data.task_id;
+            task_queue[last_convert_id] = setInterval( function () {
+                taskQueue($data.task_id,{
+                    'success':function ($result) {
+                        if (progressTick)
+                        {
+                            clearInterval(progressTick);
+                        }
+                        $("._process_info").html('处理成功');
+                        $url =  $result.target_file[0].image_preview_url;
+                        $("._target_file_box ._resource_file").attr('src',$url)
+                        $("._target_file_box ._resource_file").attr('data_id',$result.target_file[0].resource_id)
+                        $("._target_file_box ._update_url").each(function(){
+                            $(this).attr('href',$(this).attr('data-url')+$result.target_file[0].resource_id)
+                        });
+                        console.log($url)
+                    }
+                })
+            },2000);
+
+        }
+    });
+    console.log('start');
+}
+function show_language_box() {
+    $("main section").hide()
+    $("#_choose_language").show()
+}
 function getServ() {
-     return "http://a.com";
+     return "http://autosub.online";
     xy = document.location.protocol;
     if (!xy) {
         xy='http:';
@@ -37,7 +161,7 @@ var checkPaymentHandle = null;
 function getResource($resource_id,callback) {
 
     let _token = getToken();
-    $data = {"api_token": _token,'preview_width':getMaxCanvasWidth()};
+    $data = {"api_token": _token};
     apiRequest('/api/resources/'+$resource_id,'get',$data,{
         'success':function ($data) {
             if (callback.success) {
@@ -120,11 +244,6 @@ var upload = function (file,callback={},append_params={}) {
     let ext = filename.substring(filename.indexOf(".")+1)
     let dst_filename = generateUUID()+'.'+ext;
     let type = file.type.substring(0,file.type.indexOf("/"));
-    if (type !=file_type) {
-        console.log('file type wrong ' + file.type);
-        alert("您选择的不是图片文件");
-        return ;
-    }
     params = {
         upload_before:callback.upload_before?callback.upload_before:null,
         upload_process:callback.upload_process?callback.upload_process:null,
@@ -157,7 +276,7 @@ var upload = function (file,callback={},append_params={}) {
                             url: result.callback.callbackUrl,
                             /**host: result.callback.callbackBody,**/
                             /* eslint no-template-curly-in-string: [0] */
-                            body: result.callback.callbackBody+"&x_filename="+file.name+'&x_screen_width='+window.screen.width+'&x_preview_width='+getMaxCanvasWidth(),
+                            body: result.callback.callbackBody+"&x_filename="+file.name,
                             contentType: result.callback.callbackBodyType,
                             customValue: {
                                 x_filename: file.name
@@ -310,7 +429,7 @@ function showRegister() {
 function taskQueue($task_id,callback=null) {
     console.log($task_id);
     let _token = getToken();
-    $data = {"api_token": _token,'task_id':$task_id,'preview_width':getMaxCanvasWidth()};
+    $data = {"api_token": _token,'task_id':$task_id};
     apiRequest('/api/tasks/'+$task_id,'get',$data,{
         'success':function ($data) {
             if ($data.status < 0 || $data.status >20) {
@@ -376,6 +495,8 @@ function logSuccess(){
 }
 $(document).ready(function(){
     initUserInfo();
+    toggle_trans_box();
+    toggle_sub_order();
     $("#_login_form").submit(function (event) {
         event.preventDefault();  //prevent the actual form post
         $form = $(this);
