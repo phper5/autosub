@@ -1,0 +1,13 @@
+c4312ef926bd2ac2392f2a78c95d7e20ab439027	refs/heads/master
+26968e9810ff0d1aa48f6d67a862559d92a51884	refs/remotes/origin/1.2
+c4312ef926bd2ac2392f2a78c95d7e20ab439027	refs/remotes/origin/HEAD
+c4312ef926bd2ac2392f2a78c95d7e20ab439027	refs/remotes/origin/master
+bc3547883d588b6ba9a4153e5a61cc4fb751bb5f	refs/tags/v1.1.0
+6dc849e4a8954177748320d06721d6bc972129eb	refs/tags/v1.1.0^{}
+e8ccc34671e19112b27d8b24bddeb52a55a73a11	refs/tags/v1.1.1
+6048f44ff583958353fd8540e971565c306bb99b	refs/tags/v1.1.1^{}
+77d3ae34f23d8cd08c934f96adcd8d51c5a29ffa	refs/tags/v1.2.0
+a68ffcabdeeb2c7c253073ab49c86a91a551d8dd	refs/tags/v1.2.0^{}
+ac50c470531243944f977b8de75be0b684a9cb51	refs/tags/v1.2.1
+b37020aa976fa52d3de9aa904aa2522dc518f79c	refs/tags/v1.2.2
+776503d3a8e85d4f9a1148614f95b7a608b046ad	refs/tags/v2.0.0

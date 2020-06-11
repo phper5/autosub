@@ -1,0 +1,40 @@
+{
+    "name": "cnvs/studio",
+    "description": "Medium-inspired frontend for Canvas.",
+    "keywords": ["canvas", "laravel", "vue"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/cnvs/studio/issues",
+        "source": "https://github.com/cnvs/studio"
+    },
+    "authors": [
+        {
+            "name": "Todd Austin",
+            "email": "austin.todd.j@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "laravel/framework": "^6.0|^7.0"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Studio\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Studio\\StudioServiceProvider"
+            ]
+        }
+    }
+}

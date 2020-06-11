@@ -1,0 +1,3 @@
+
+mix.js('resources/js/studio/app.js', 'public/studio/js')
+    .sass('resources/sass/studio/app.scss', 'public/studio/css');

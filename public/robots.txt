@@ -1,0 +1,3 @@
+User-agent: *
+Host: /image-tools/inpainting-image
+Sitemap: https://recovery.diandi.org/sitemap.xml
