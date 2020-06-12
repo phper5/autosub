@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 use Yansongda\LaravelPay\Facades\Pay;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('autosub');
+    //return view('welcome');
 });
 Route::get('/t2/{id}', function (\Illuminate\Http\Request $request,$id) {
     $order = [
@@ -50,36 +51,12 @@ Route::get('image-tools', function (){
     return view('image-tools');
 })->name('image-tools');
 
-Route::get('image-tools/convert-image', function (){
-    return view('image-tools/convert-image');
-})->name('image-tools-convert');
-Route::get('image-tools/compress-image', function (){
-    return view('image-tools/compress-image');
-})->name('image-tools-compress');
 
-Route::get('image-tools/inpainting-image', function (){
-    return view('image-tools/inpainting-image');
-})->name('image-tools-inpainting');
-
-Route::get('image-tools/watermark-removal-long-text', function (){
-    return view('image-tools/watermark-removal-long-text');
-})->name('image-tools-watermark-removal-long-text');
-Route::get('image-tools/watermark-removal-repeat', function (){
-    return view('image-tools/watermark-removal-repeat');
-})->name('image-tools-watermark-removal-repeat');
 
 Route::get('image-tools/watermark-removal-auto', function (){
-    return view('image-tools/watermark-removal-auto');
-})->name('image-tools-watermark-removal-auto');
+    return view('image-tools/autosub');
+})->name('autosub');
 
-
-Route::get('image-tools/cartoonise-image', function (){
-    return view('image-tools/cartoonise-image');
-})->name('image-tools-cartoonise');
-
-Route::get('image-tools/denoise-image', function (){
-    return view('image-tools/denoise-image');
-})->name('image-tools-denoise');
 
 Route::get('articles', 'AritcleController@index')->name('articles');
 Route::get('articles/{id}/{slug}', 'AritcleController@show')->name('article');

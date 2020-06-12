@@ -1,8 +1,7 @@
 @extends('layouts.app')
-@section('app_title', config('app.name').'-自动水印清除工具')
+@section('app_title', config('app.name').'-在线水印自动生成')
 
-@section('app_title', config('app.name').'-自动水印清除工具')
-@section('app_description', '在线自动清除水印，无需下载，可以方地在线处理，借助人工智能，更便捷的去除图片水印。')
+@section('app_description', '音视频在线自动生成字幕，通过语音识别自动为用户生成音视频字幕，进行字幕翻译，字幕压制。')
 @section('content')
     <script src="/ali-oss/dist/aliyun-oss-sdk.min.js"  defer="true" ></script>
     <script src="/js/autosub.js" defer="true"></script>
@@ -236,6 +235,25 @@
                         </div>
                     </div>
                 </div> <!---->
+            </div>
+        </div>
+    </section>
+    <section class="container" id="_process_success" style="display: none">
+        <div class="flex-center position-ref">
+            <div class="mt-5">
+                <h2 class="strong text-center">
+                    字幕生成完毕
+                </h2>
+                <div class="card mt-3">
+                    <div  class="card-header">字幕下载</div>
+                    <div class="card-body row" id="_sub_list_box">
+                        <div class="m-2"><a href="">中文字幕</a></div>
+                        <div class="m-2"><a href="">中文字幕</a></div>
+                    </div>
+                </div>
+                <div class="strong text-center mt-5">
+                    <a href="" class="btn btn-primary">在线校验字幕</a>
+                </div>
             </div>
         </div>
     </section>

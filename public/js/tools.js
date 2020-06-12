@@ -104,12 +104,16 @@ function start_task() {
                             clearInterval(progressTick);
                         }
                         $("._process_info").html('处理成功');
-                        $url =  $result.target_file[0].image_preview_url;
-                        $("._target_file_box ._resource_file").attr('src',$url)
-                        $("._target_file_box ._resource_file").attr('data_id',$result.target_file[0].resource_id)
-                        $("._target_file_box ._update_url").each(function(){
-                            $(this).attr('href',$(this).attr('data-url')+$result.target_file[0].resource_id)
-                        });
+                        $html='<div class="m-2"><a href="'+$result.sub1.url+'">'+$result.sub1.lan_txt+'</a></div>';
+                        if ($result.args.is_need_trans && $result.args.is_need_trans!="0" && $result.sub2) {
+                            $html='<div class="m-2"><a href="'+$result.sub2.url+'">'+$result.sub2.lan_txt+'</a></div>';
+                            if ($result.args.is_need_merge && $result.args.is_need_merge!="0" && $result.sub3) {
+                                $html='<div class="m-2"><a href="'+$result.sub3.url+'">'+$result.sub3.lan_txt+'</a></div>';
+                            }
+                        }
+                        $("#_sub_list_box").html($html);
+                        $("main section").hide()
+                        $("#_process_success").show()
                         console.log($url)
                     }
                 })

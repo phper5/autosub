@@ -32,16 +32,39 @@ class Task extends Model
             $options['preview']=1;
             $options['preview_width'] = $config['preview_width'];
         }
-        if ($this->target_file)
+        if ($this->sub1)
         {
 
-            $target = json_decode($this->target_file,true);
-            if ($target && $resource = Resource::find($target[0]))
+            if ($this->sub1 && $resource = Resource::find($this->sub1))
             {
-                $data['target_file'] = [$resource->toResponse($options)];
+                $data['sub1'] = $resource->toResponse($options);
+                $data['sub3']['lan_txt'] = '中文';
             }
-            else{
-                $data['target_file2'] = 'not found';
+        }
+        if ($this->sub2)
+        {
+
+            if ($this->sub2 && $resource = Resource::find($this->sub2))
+            {
+                $data['sub2'] = $resource->toResponse($options);
+                $data['sub3']['lan_txt'] = '中文';
+            }
+        }
+        if ($this->sub3)
+        {
+
+            if ($this->sub3 && $resource = Resource::find($this->sub3))
+            {
+                $data['sub3'] = $resource->toResponse($options);
+                $data['sub3']['lan_txt'] = '中文';
+            }
+        }
+        if ($this->mp3)
+        {
+
+            if ($this->mp3 && $resource = Resource::find($this->mp3))
+            {
+                $data['mp3'] = $resource->toResponse($options);
             }
         }
         if ((isset($config['sourceDetail']) && $config['sourceDetail']) || $this->target_file) {
@@ -51,9 +74,9 @@ class Task extends Model
                 $data['source_file'] = [$resource->toResponse($options)];
             }
         }
-        if ((isset($config['args']) && $config['args'])) {
-            $data['args'] = json_decode($this->args);
-        }
+
+        $data['args'] = json_decode($this->args);
+
         return $data;
     }
 }
