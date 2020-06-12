@@ -252,7 +252,7 @@
                     </div>
                 </div>
                 <div class="strong text-center mt-5">
-                    <a href="" class="btn btn-primary">在线校验字幕</a>
+                    <a href="#" class="btn btn-primary" id="_online_check_link">在线校验字幕</a>
                 </div>
             </div>
         </div>
