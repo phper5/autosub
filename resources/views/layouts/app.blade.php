@@ -15,7 +15,7 @@
         })();
     </script>
     <title>@hasSection('app_title') @yield('app_title') @else {{ config('app.name', 'autosub-在线自动字幕生成-图片去水印') }} @endif</title>
-    <meta name="Keywords" content="autosub-在线自动字幕生成,图片去水印,图像修复"/>
+    <meta name="Keywords" content="{{ config('app.name', 'autosub-在线自动字幕生成,语音识别,字幕制作，格式转换') }}"/>
     <meta name="description" content="@hasSection('app_description') @yield('app_description')  @else  {{config('app.desc')}} @endif"/>
     <meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
     <meta property="og:locale" content="zh_CN" />
@@ -26,7 +26,7 @@
     {{ config('app.name', 'Laravel') }} @endif" />
     <meta property="og:description" content="@hasSection('app_description')   @yield('app_description')@else {{config('app.desc')}} @endif" />
     <meta property="og:url" content="https://www.diandi.org/" />
-    <meta property="og:site_name" content="@hasSection('app_title') @yield('app_title') @else {{ config('app.name', 'autosub-在线自动字幕生成-图片去水印') }} @endif" />
+    <meta property="og:site_name" content="@hasSection('app_title') @yield('app_title') @else {{ config('app.name', 'autosub-在线自动字幕生成') }} @endif" />
     <script src="/js/jq.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.bundle.js"></script>
     <script src="/js/tools.js"></script>
@@ -49,8 +49,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li><a  class="nav-link"  href="/image-tools/inpainting-image">图像修复</a></li>
-                        <li><a  class="nav-link"  href="/image-tools/watermark-removal-auto">自动水印清除</a></li>
+{{--                        <li><a  class="nav-link"  href="/image-tools/inpainting-image">图像修复</a></li>--}}
+{{--                        <li><a  class="nav-link"  href="/image-tools/watermark-removal-auto">自动水印清除</a></li>--}}
                         <!--
                         <li><a  class="nav-link"  href="/image-tools/watermark-removal-long-text">长条水印清除</a></li>
                         <li><a  class="nav-link"  href="/image-tools/watermark-removal-repeat">平铺水印清除</a></li>
