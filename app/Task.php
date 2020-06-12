@@ -32,33 +32,35 @@ class Task extends Model
             $options['preview']=1;
             $options['preview_width'] = $config['preview_width'];
         }
+        $args = json_decode($this->args,true);
         if ($this->sub1)
         {
 
             if ($this->sub1 && $resource = Resource::find($this->sub1))
             {
                 $data['sub1'] = $resource->toResponse($options);
-                $data['sub3']['lan_txt'] = '中文';
+                $data['sub1']['lan_txt'] = Lan::getLanTxt($args['language']);
             }
         }
-        if ($this->sub2)
+        if ( $args['is_need_trans'] && $this->sub2)
         {
 
             if ($this->sub2 && $resource = Resource::find($this->sub2))
             {
                 $data['sub2'] = $resource->toResponse($options);
-                $data['sub3']['lan_txt'] = '中文';
+                $data['sub2']['lan_txt'] = Lan::getLanTxt($args['is_need_trans']);
             }
-        }
-        if ($this->sub3)
-        {
-
-            if ($this->sub3 && $resource = Resource::find($this->sub3))
+            if ($args['is_need_merge'] && $this->sub3)
             {
-                $data['sub3'] = $resource->toResponse($options);
-                $data['sub3']['lan_txt'] = '中文';
+
+                if ($this->sub3 && $resource = Resource::find($this->sub3))
+                {
+                    $data['sub3'] = $resource->toResponse($options);
+                    $data['sub3']['lan_txt'] = '合并字幕';
+                }
             }
         }
+
         if ($this->mp3)
         {
 
