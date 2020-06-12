@@ -52,8 +52,7 @@
 {{--                        <li><a  class="nav-link"  href="/image-tools/inpainting-image">图像修复</a></li>--}}
 {{--                        <li><a  class="nav-link"  href="/image-tools/watermark-removal-auto">自动水印清除</a></li>--}}
                         <!--
-                        <li><a  class="nav-link"  href="/image-tools/watermark-removal-long-text">长条水印清除</a></li>
-                        <li><a  class="nav-link"  href="/image-tools/watermark-removal-repeat">平铺水印清除</a></li>
+
                         -->
                     </ul>
 
