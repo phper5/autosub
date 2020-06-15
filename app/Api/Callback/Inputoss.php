@@ -42,17 +42,20 @@ class Inputoss
         if ( in_array($step,['flac','mp3','aac','ogg','wav'])){
             $task->status = \App\Task::STATUS_PRCS;
         }else{
-            $status = \App\Task::STATUS_FINISH;
+            $finished = 1;
             $args = json_decode($task->args,true);
             if (!$task->sub1)
-                $status = \App\Task::STATUS_PROCESS;
+                $finished = 0;
             if ($args['is_need_trans']&&!$task->sub2) {
-                $status = \App\Task::STATUS_PROCESS;
+                $finished = 0;
             }
-            if ($args['is_need_merge']&&!$task->sub3) {
-                $status = \App\Task::STATUS_PROCESS;
+            if ($args['is_need_trans'] && $args['is_need_merge']&&!$task->sub3) {
+                $finished = 0;
             }
-            $task->status = $status;
+            if ($finished)
+            {
+                $task->status = \App\Task::STATUS_FINISH;
+            }
         }
 
         $task->save();
