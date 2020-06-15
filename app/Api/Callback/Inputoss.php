@@ -36,18 +36,11 @@ class Inputoss
 //        $task->target_file = json_encode([$resource->id]);
 //        $task->status = \App\Task::STATUS_FINISH;
 //        $task->save();
-        if ($step == 'mp3')
-        {
-            $task->mp3 = $resource->id;
+        if ( $step){
+            $task->$step = $resource->id;
         }
-        else if ($step == 'sub1'){
-             $task->sub1 = $resource->id;
-        }
-        else if ($step == 'sub2'){
-            $task->sub2 = $resource->id;
-        }
-        else if ($step == 'sub3'){
-            $task->sub3 = $resource->id;
+        if ( in_array($step,['flac','mp3','aac','ogg','wav'])){
+            $task->status = \App\Task::STATUS_PRCS;
         }
         $status = \App\Task::STATUS_FINISH;
         $args = json_decode($task->args,true);
