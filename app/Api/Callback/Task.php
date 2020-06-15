@@ -51,7 +51,7 @@ class Task
             if ($test_task_id || \App\Task::where('id', $task->id)
                 ->where('status', \App\Task::STATUS_QUEUE)
                 ->update(['status' => \App\Task::STATUS_PROCESS])) {
-                $data ['task'] =$task->toResponse(['sourceDetail'=>true,'args'=>true]);
+                $data ['task'] =$task->toResponse(['sourceDetail'=>true,'args'=>true,'flac'=>true]);
                 $data ['task']['finished_url'] = config('app.url').'/api/callback/task/finished';
                 $params = [
                     'user_id'=>$task->user_id,

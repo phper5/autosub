@@ -70,7 +70,17 @@ class Task extends Model
                 $data['mp3'] = $resource->toResponse($options);
             }
         }
-        if ((isset($config['sourceDetail']) && $config['sourceDetail']) || $this->target_file) {
+        if ((isset($config['flac']) && $config['flac'])) {
+            if ($this->flac && $resource = Resource::find($this->flac))
+            {
+                $data['flac'] = $resource->toResponse($options);
+            }
+            if ($this->aac && $resource = Resource::find($this->aac))
+            {
+                $data['aac'] = $resource->toResponse($options);
+            }
+        }
+            if ((isset($config['sourceDetail']) && $config['sourceDetail']) || $this->target_file) {
             if ($resource = Resource::find($this->source_file))
             {
 
