@@ -437,7 +437,7 @@ function taskQueue($task_id,callback=null) {
     $data = {"api_token": _token,'task_id':$task_id};
     apiRequest('/api/tasks/'+$task_id,'get',$data,{
         'success':function ($data) {
-            if ($data.status < 0 || $data.status >20) {
+            if ($data.status < 0 || $data.status >=30) {
                 if (task_queue[$task_id])
                 {
                     clearInterval(task_queue[$task_id] );

@@ -65,7 +65,7 @@ $(document).ready(function(){
         upload(fileList[0],callback,{'is_inpainting':1})
     });
 
-ery_resource_id = getQueryVariable("resource_id");
+$query_resource_id = getQueryVariable("resource_id");
     if ($query_resource_id) {
         editResourceById($query_resource_id);
     }
