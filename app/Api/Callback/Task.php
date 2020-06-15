@@ -44,13 +44,13 @@ class Task
             $task=\App\Task::find($test_task_id);
         }
         else{
-            $task = \App\Task::where('status',\App\Task::STATUS_QUEUE) ->orderBy('created_at', 'ASC')->first();
+            $task = \App\Task::where('status',\App\Task::STATUS_PRCS) ->orderBy('created_at', 'ASC')->first();
         }
         if ($task)
         {
             if ($test_task_id || \App\Task::where('id', $task->id)
-                ->where('status', \App\Task::STATUS_QUEUE)
-                ->update(['status' => \App\Task::STATUS_PROCESS])) {
+                ->where('status', \App\Task::STATUS_PRCS)
+                ->update(['status' => \App\Task::STATUS_ZM])) {
                 $data ['task'] =$task->toResponse(['sourceDetail'=>true,'args'=>true,'flac'=>true]);
                 $data ['task']['finished_url'] = config('app.url').'/api/callback/task/finished';
                 $params = [

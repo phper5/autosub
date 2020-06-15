@@ -40,6 +40,7 @@ Route::any('callback/ali/notice', 'Callback\AliController@notice');
 Route::any('callback/payment/{id}', 'Callback\ResourceController@payment');
 
 Route::get('callback/tasks', 'Callback\Task@getOne');
+Route::get('callback/taskproc', 'Callback\TaskProc@getOne');
 Route::get('callback/tasks', 'Callback\Task@getOne');
 Route::any('callback/inputoss', 'Callback\Inputoss@post');
 Route::any('callback/task/finished', 'Callback\Task@finished');

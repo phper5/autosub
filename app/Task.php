@@ -14,6 +14,7 @@ class Task extends Model
     const STATUS_QUEUE = 10;
     const STATUS_PROCESS = 20;
     const STATUS_PRCS = 22;
+    const STATUS_ZM = 24;
     const STATUS_FINISH = 30;
     const STATUS_ERROR = -10;
 
