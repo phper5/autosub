@@ -41,18 +41,20 @@ class Inputoss
         }
         if ( in_array($step,['flac','mp3','aac','ogg','wav'])){
             $task->status = \App\Task::STATUS_PRCS;
+        }else{
+            $status = \App\Task::STATUS_FINISH;
+            $args = json_decode($task->args,true);
+            if (!$task->sub1)
+                $status = \App\Task::STATUS_PROCESS;
+            if ($args['is_need_trans']&&!$task->sub2) {
+                $status = \App\Task::STATUS_PROCESS;
+            }
+            if ($args['is_need_merge']&&!$task->sub3) {
+                $status = \App\Task::STATUS_PROCESS;
+            }
+            $task->status = $status;
         }
-        $status = \App\Task::STATUS_FINISH;
-        $args = json_decode($task->args,true);
-        if (!$task->sub1)
-            $status = \App\Task::STATUS_PROCESS;
-        if ($args['is_need_trans']&&!$task->sub2) {
-            $status = \App\Task::STATUS_PROCESS;
-        }
-        if ($args['is_need_merge']&&!$task->sub3) {
-            $status = \App\Task::STATUS_PROCESS;
-        }
-        $task->status = $status;
+
         $task->save();
         return (new Response())->setData(['resource_id'=>$resource->id])->setHeaders(['Cache-Control'=>'no-cache'])->Json();
 
