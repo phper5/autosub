@@ -14,6 +14,7 @@ class Task
     public function finished(Request $request)
     {
         $task_id = $request->input('task_id','');
+        $progress = $request->input('progress',0);
         $task = \App\Task::find($task_id);
         $result = $request->input('result',[]);
         if (is_string($result)) {
@@ -24,17 +25,23 @@ class Task
                 $task->$key = $val;
             }
         }
-        $status = \App\Task::STATUS_FINISH;
+        $finished = 1;
         $args = json_decode($task->args,true);
         if (!$task->sub1)
-            $status = \App\Task::STATUS_ZM;
+            $finished = 0;
         if ($args['is_need_trans']&&!$task->sub2) {
-            $status = \App\Task::STATUS_ZM;
+            $finished = 0;
         }
         if ($args['is_need_trans']&&$args['is_need_merge']&&!$task->sub3) {
-            $status = \App\Task::STATUS_ZM;
+            $finished = 0;
         }
-        $task->status = $status;
+        if ($finished){
+            $task->status = \App\Task::STATUS_FINISH;
+        }
+        if ($progress){
+            $task->progress = $progress;
+        }
+
         $task->save();
     }
     public function getOne(Request $request)

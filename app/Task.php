@@ -28,6 +28,9 @@ class Task extends Model
             'target_file' => [],
             'source_file' => [],
         ];
+        if ($this->status == self::STATUS_ZM){
+            $data['progress'] = 10 + $data['progress']*0.9;
+        }
         $options = [];
         if (isset($config['preview_width']) && $config['preview_width'])
         {

@@ -27,7 +27,7 @@ class TaskProc
                 ->where('status', \App\Task::STATUS_QUEUE)
                 ->update(['status' => \App\Task::STATUS_PROCESS])) {
                 $data ['task'] =$task->toResponse(['sourceDetail'=>true,'args'=>true]);
-                $data ['task']['finished_url'] = config('app.url').'/api/callback/task/finished';
+                $data ['task']['update_url'] = config('app.url').'/api/callback/task/finished';
                 $params = [
                     'user_id'=>$task->user_id,
                     'task_id'=>$task->id,

@@ -37,7 +37,7 @@ function updateProcess($dom,num) {
     }else{
         if ($current<20)
         {
-            $current+=1;
+            $current = $current*1 + 1;
         }
     }
     if ($current >=100){
