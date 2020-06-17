@@ -59,7 +59,7 @@ class Task
                 ->where('status', \App\Task::STATUS_PRCS)
                 ->update(['status' => \App\Task::STATUS_ZM])) {
                 $data ['task'] =$task->toResponse(['sourceDetail'=>true,'args'=>true,'flac'=>true]);
-                $data ['task']['finished_url'] = config('app.url').'/api/callback/task/finished';
+                $data ['task']['update_url'] = config('app.url').'/api/callback/task/finished';
                 $params = [
                     'user_id'=>$task->user_id,
                     'task_id'=>$task->id,
