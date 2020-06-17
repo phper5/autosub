@@ -98,6 +98,12 @@ function start_task() {
             last_convert_id = $data.task_id;
             task_queue[last_convert_id] = setInterval( function () {
                 taskQueue($data.task_id,{
+                    'progress':function ($result) {
+                        if ($result.progress){
+                            updateProcess($(".progress-bar"),$result.progress);
+                        }
+
+                    },
                     'success':function ($result) {
                         if (progressTick)
                         {
@@ -446,9 +452,14 @@ function taskQueue($task_id,callback=null) {
             if ($data.status <0) {
                 alert("处理失败");
             }
-            if ($data.status == 30) {
+            else if ($data.status == 30) {
                 if (callback.success) {
                     callback.success($data);
+                }
+            }
+            else{
+                if (callback.progress) {
+                    callback.progress($data);
                 }
             }
         }
