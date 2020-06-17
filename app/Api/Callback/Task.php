@@ -27,12 +27,12 @@ class Task
         $status = \App\Task::STATUS_FINISH;
         $args = json_decode($task->args,true);
         if (!$task->sub1)
-            $status = \App\Task::STATUS_PROCESS;
+            $status = \App\Task::STATUS_ZM;
         if ($args['is_need_trans']&&!$task->sub2) {
-            $status = \App\Task::STATUS_PROCESS;
+            $status = \App\Task::STATUS_ZM;
         }
-        if ($args['is_need_merge']&&!$task->sub3) {
-            $status = \App\Task::STATUS_PROCESS;
+        if ($args['is_need_trans']&&$args['is_need_merge']&&!$task->sub3) {
+            $status = \App\Task::STATUS_ZM;
         }
         $task->status = $status;
         $task->save();
