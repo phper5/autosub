@@ -31,7 +31,7 @@ class TaskProc
                 $params = [
                     'user_id'=>$task->user_id,
                     'task_id'=>$task->id,
-                    'action'=>'task'
+                    'action'=>'proc'
                 ];
                 $data['oss']=(new Oss())->buildCallbackUrl($params);
                 return (new Response())->setData([$data])->setHeaders(['Cache-Control'=>'no-cache'])->Json();
