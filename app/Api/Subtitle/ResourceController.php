@@ -19,6 +19,6 @@ class ResourceController
             $filename = $tmp[0];
         }
         $filename = $filename.'-'.$resource->language.'.srt';
-        return response($resource->subittle)->header('Content-Disposition','attachment;filename="'.$filename.'"');
+        return response($resource->subtitle)->header('Content-Disposition','attachment;filename="'.$filename.'"');
     }
 }
