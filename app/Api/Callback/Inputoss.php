@@ -37,7 +37,7 @@ class Inputoss
             if ( $step){
                 $source->$step = $resource->id;
             }
-            if ( in_array($step,['flac','mp3','aac','ogg','wav']) &&  $task->status == \App\Task::STATUS_QUEUE){
+            if ( in_array($step,['flac','mp3','aac','ogg','wav']) &&  ($task->status == \App\Task::STATUS_PROCESS)){
                 $task->status = \App\Task::STATUS_PRCS;
                 $source->status = \App\Task::STATUS_PRCS;
             }
