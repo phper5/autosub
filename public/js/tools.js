@@ -60,9 +60,7 @@ function start_task() {
     last_time = timestamp;
     $resource_id = $("#_resource_id").val();
     $language = $("#_language").val();
-    $is_need_trans = $("#is_need_trans").val();
-    $is_need_merge = get_is_need_merge();
-    $sub_order = get_sub_order();
+
     if (typeof($resource_id) == 'undefined' || !$resource_id) {
         alert("请先上传文件");
         return;
@@ -78,11 +76,8 @@ function start_task() {
     $service_type = $("#_services_id").val();
     $args = {
         'language':$language,
-        'is_need_trans':$is_need_trans,
-        'is_need_merge':$is_need_merge,
-        'sub_order':$sub_order,
     };
-    $param_data = {"api_token": _token,'service':$service_type,'resource_id':$resource_id,'args':$args};
+    $param_data = {"api_token": _token,'service':$service_type,'resource_id':$resource_id,'language':$language};
     if (task_queue[last_convert_id])
     {
         clearInterval(task_queue[last_convert_id] );
@@ -91,7 +86,7 @@ function start_task() {
         updateProcess($(".progress-bar"),0)
     },3000);
 
-    apiRequest('/api/tasks','post',$param_data,{
+    apiRequest('/api/task/resource','post',$param_data,{
         'success':function ($data) {
             //开始监听
             console.log($data);

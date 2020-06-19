@@ -72,40 +72,6 @@
 
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="name" class="col-md-4 col-form-label text-md-right">翻译为</label>
-                                            <div class="col-md-6">
-                                                <select id="is_need_trans" onchange="toggle_trans_box()">
-                                                    <option value="0" selected = "selected">不需要翻译</option>
-                                                    <?php
-                                                    foreach (config('lan.site') as $key =>$val) {
-                                                    ?>
-                                                    <option value="<?php echo $key;?>" ><?php echo $val;?></option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                        <div id="trans_box">
-                                            <div class="form-group row">
-                                                <label for="name" class="col-md-4 col-form-label text-md-right">多语言字幕是否合并</label>
-                                                <div class="col-md-6">
-                                                    <input type="radio" name="is_sub_merge" value="0" onclick="toggle_sub_order();">不合并
-                                                    <input type="radio" name="is_sub_merge" value="1" onclick="toggle_sub_order();" checked="checked" >合并
-                                                </div>
-                                            </div>
-                                            <div class="form-group row" id="_sub_order">
-                                                <label for="name" class="col-md-4 col-form-label text-md-right">字幕合并顺序</label>
-                                                <div class="col-md-6">
-                                                    <input type="radio" name="sub_order" value="0" checked="checked">源语言在前
-                                                    <input type="radio" name="sub_order" value="1">翻译语言在前
-                                                </div>
-                                            </div>
-                                        </div>
-
-
                                         <div class="form-group row mb-0">
                                             <div class="col-md-6 offset-md-4">
                                                 <button type="button" class="btn btn-primary" onclick="start_task();return false;">

@@ -11,7 +11,6 @@ class Resource extends Model
     public $incrementing = false;
 
 
-
     public  function toResponse($options=[])
     {
         $auto_orient = true;
