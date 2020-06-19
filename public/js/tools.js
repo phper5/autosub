@@ -105,7 +105,7 @@ function start_task() {
                             clearInterval(progressTick);
                         }
                         $("._process_info").html('处理成功');
-                        $html='<div class="m-2"><a href="/subtitles/resource/'+$result.source_file[0].resource_id+'">'+$result.source_file[0].lan_txt+'</a></div>';
+                        $html='<div class="m-2"><a href="/api/subtitles/resource/'+$result.source_file[0].resource_id+'">'+$result.source_file[0].lan_txt+'</a></div>';
 
                         $("#_online_check_link").attr('href','/play/resources/'+$result.source_file[0].resource_id);
                         $("#_sub_list_box").html($html);
