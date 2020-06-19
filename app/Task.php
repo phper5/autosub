@@ -37,6 +37,13 @@ class Task extends Model
         }else{
             $args=[];
         }
+        if ((isset($config['sourceDetail']) && $config['sourceDetail'])) {
+            if ($resource = Resource::find($this->source_file))
+            {
+
+                $data['source_file'] = [$resource->toResponse([])];
+            }
+        }
 
 
         $data['args'] = $args;
