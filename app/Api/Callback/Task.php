@@ -6,6 +6,7 @@ namespace App\Api\Callback;
 
 use App\Api\Response;
 use App\Oss;
+use App\Resource;
 use Illuminate\Http\Request;
 
 
@@ -15,33 +16,24 @@ class Task
     {
         $task_id = $request->input('task_id','');
         $progress = $request->input('progress',0);
+        $content = $request->input('content','');
         $task = \App\Task::find($task_id);
         $result = $request->input('result',[]);
-        if (is_string($result)) {
-            $result = json_decode($result,true);
-        }
-        if (is_array($result)) {
-            foreach ($result as $key =>$val) {
-                $task->$key = $val;
-            }
-        }
-        $finished = 1;
-        $args = json_decode($task->args,true);
-        if (!$task->sub1)
-            $finished = 0;
-        if ($args['is_need_trans']&&!$task->sub2) {
-            $finished = 0;
-        }
-        if ($args['is_need_trans']&&$args['is_need_merge']&&!$task->sub3) {
-            $finished = 0;
-        }
-        if ($finished){
-            $task->status = \App\Task::STATUS_FINISH;
+        if ($source = Resource::find($task->source_file)){
+            $source->subtitle = $content;
         }
         if ($progress){
             $task->progress = $progress;
         }
-
+        if ($content) {
+            if ($source = Resource::find($task->source_file)){
+                $source->subtitle = $content;
+                $source->status = \App\Task::STATUS_FINISH;
+                $source->save();
+            }
+            $task->progress = 100;
+            $task->status = \App\Task::STATUS_FINISH;
+        }
         $task->save();
     }
     public function getOne(Request $request)
