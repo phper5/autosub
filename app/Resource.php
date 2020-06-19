@@ -23,6 +23,8 @@ class Resource extends Model
             'bucket'=>$this->bucket,
             'object'=>$this->object,
             'is_payed'=>$this->is_payed,
+            'language'=>$this->language,
+            'lan_txt' => Lan::getLanTxt($this->language),
             'created_at'=>$this->created_at->timestamp,
             'url' => $this->getUrl(null,null,$auto_orient,false,['download_as'=>$this->filename])
         ];

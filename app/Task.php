@@ -37,7 +37,7 @@ class Task extends Model
         }else{
             $args=[];
         }
-        if ((isset($config['sourceDetail']) && $config['sourceDetail'])) {
+        if ((isset($config['sourceDetail']) && $config['sourceDetail']) || $this->status == self::STATUS_FINISH) {
             if ($resource = Resource::find($this->source_file))
             {
 
