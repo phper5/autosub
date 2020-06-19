@@ -33,8 +33,11 @@ Route::get('resources/{id}', 'Resource@getOne');
 Route::get('payment/resource/{id}', 'PaymentController@getOne');
 
 
-Route::get('tasks/{id}', 'Task@getOne');
+Route::get('subtitles/resource/{id}', 'Subtitle\ResourceController@getOne');
+
+
 Route::post('task/resource', 'Task\ResourceController@post');
+Route::get('tasks/{id}', 'Task@getOne');
 
 Route::any('callback/ali/sync', 'Callback\AliController@sync');
 Route::any('callback/ali/notice', 'Callback\AliController@notice');
