@@ -34,6 +34,7 @@ Route::get('payment/resource/{id}', 'PaymentController@getOne');
 
 
 Route::get('tasks/{id}', 'Task@getOne');
+Route::post('task/resource', 'Task\ResourceController@post');
 
 Route::any('callback/ali/sync', 'Callback\AliController@sync');
 Route::any('callback/ali/notice', 'Callback\AliController@notice');
