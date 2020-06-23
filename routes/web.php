@@ -41,6 +41,14 @@ Route::post('support', 'SupportController@post');
 Route::get('feedback', function () {
     return view('feedback');
 });
+
+
+Route::get('play/resources/{id}', function () {
+    return view('subtitle/play');
+});
+
+
+
 Route::get('pricing', function () {
     return view('pricing');
 });

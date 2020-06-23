@@ -47,6 +47,7 @@ function updateProcess($dom,num) {
     $dom.attr("aria-valuenow",$current)
     $dom[0].style.width=$current+"%";
 }
+
 var last_time =0;
 var last_convert_id = 0;
 function start_task() {
@@ -109,9 +110,8 @@ function start_task() {
 
                         $("#_online_check_link").attr('href','/play/resources/'+$result.source_file[0].resource_id);
                         $("#_sub_list_box").html($html);
-                        $("main section").hide()
-                        $("#_process_success").show()
-                        console.log($url)
+                        $("main section").hide();
+                        $("#_process_success").show();
                     }
                 })
             },2000);
@@ -125,7 +125,7 @@ function show_language_box() {
     $("#_choose_language").show()
 }
 function getServ() {
-     return "http://autosub.online";
+     return "http://autosub.cn";
     xy = document.location.protocol;
     if (!xy) {
         xy='http:';
@@ -361,18 +361,23 @@ function getToken(callback=null) {
  * @param $data
  * @param $callback
  */
-function apiRequest ($api,$method,$data={},$callback=null)
+function apiRequest ($api,$method,$data={},$callback=null,type="json")
 {
     $server= getServ();
     $.ajax({
         url: $server+$api,
         method: $method,
         data: $data,
-        dataType: "json",
+        dataType: type,
         success: function (data) {
             if (typeof  $callback.success !="undefined")
             {
-                $callback.success(data.data)
+                if (type == "json")
+                {
+                    $callback.success(data.data)
+                }else{
+                    $callback.success(data)
+                }
             }
         },
         error : function(e){

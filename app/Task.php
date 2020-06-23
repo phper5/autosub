@@ -27,7 +27,7 @@ class Task extends Model
             'service' => $this->service,
         ];
         if ($this->status == self::STATUS_ZM){
-            $data['progress'] = 10 + $data['progress']*0.9;
+            $data['progress'] = 30 + $data['progress']*0.7;
         }
         if ($data['progress']>100){
             $data['progress'] = 100;
