@@ -159,10 +159,11 @@ function closeDownload() {
 }
 var checkPaymentHandle = null;
 
-function getResource($resource_id,callback) {
+function getResource($resource_id,callback,$data={}) {
 
     let _token = getToken();
-    $data = {"api_token": _token};
+    $data['api_token'] = _token;
+    // $data = {"api_token": _token};
     apiRequest('/api/resources/'+$resource_id,'get',$data,{
         'success':function ($data) {
             if (callback.success) {

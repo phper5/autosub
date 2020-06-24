@@ -19,6 +19,12 @@
         #_zm_edit_text_box textarea{
             min-height: 300px;
         }
+        .card-body input.time{
+            width: 80px;
+        }
+        .card-body input.zm{
+            width: 540px;
+        }
     </style>
     <link href="https://vjs.zencdn.net/7.8.2/video-js.css" rel="stylesheet" />
 
@@ -37,23 +43,29 @@
                     在线校验字幕可以对语音生成的字幕据进行试听预览,编辑,删除,插入等操作。修复语音识别中的错误,制作成完整正确的字幕</div>
             </div>
         </div>
-        <div class="flex-center position-ref">
+        <div class="form-group row">
+            <div class="col-md-2">预览方式 <input type="checkbox" name="smsenable" id="smsenable" /></div>
+            <div class="col-md-10 " id="_text-info"> 提示信息</div>
+        </div>
+        <div class=" position-ref">
             <div class="overflow-hidden" style="background: #000;padding: 5px;">
+                <div id="_video_box" class="flex-center">
+                    <video id="my_video_1" class="video-js vjs-default-skin"
+                           controls preload="auto"   data-setup="{}" autoplay="flase">
+                        {{--                    <source src="http://demo.mimvp.com/html5/take_you_fly.ogg" />--}}
+                        {{--                    <source src="http://127.0.0.1/1.mp3" />--}}
+{{--                        <source src="http://127.0.0.1/2.mp4" type="video/mp4"  />--}}
+                        {{--                    <source src="http://demo.mimvp.com/html5/take_you_fly.wav" />--}}
+                        <p class="vjs-no-js">
+                            To view this video please enable JavaScript, and consider upgrading to a
+                            web browser that
+                            <a href="https://videojs.com/html5-video-support/" target="_blank"
+                            >supports HTML5 video</a
+                            >
+                        </p>
+                    </video>
+                </div>
 
-                <video id="my_video_1" class="video-js vjs-default-skin"
-                       controls preload="auto"  poster="my_video_poster.png" data-setup="{}" autoplay="true">
-                    {{--                    <source src="http://demo.mimvp.com/html5/take_you_fly.ogg" />--}}
-{{--                    <source src="http://127.0.0.1/1.mp3" />--}}
-                    <source src="http://127.0.0.1/2.mp4" type="video/mp4"  />
-{{--                    <source src="http://demo.mimvp.com/html5/take_you_fly.wav" />--}}
-                    <p class="vjs-no-js">
-                        To view this video please enable JavaScript, and consider upgrading to a
-                        web browser that
-                        <a href="https://videojs.com/html5-video-support/" target="_blank"
-                        >supports HTML5 video</a
-                        >
-                    </p>
-                </video>
                 <div id="zmlist" class="flex-center"></div>
 
 
@@ -62,17 +74,12 @@
         <div style="display: flex;flex-direction: row;text-align: center;justify-content:space-around" class="mt-5">
 
 
-                    <button class="g-recaptcha btn btn-primary" type="submit" id="_insert_new_text">插入新字幕</button>
-
-
-                <button class="g-recaptcha btn btn-primary" type="submit" id="_edit_current_text">编辑当前字幕</button>
-
-
-                    <button class="g-recaptcha btn btn-primary" type="submit" id="_delete_current_text">删除当前字幕</button>
+                    <button class="g-recaptcha btn btn-primary" type="submit" id="_insert_new_text">编辑字幕</button>
 
 
 
-                    <button class="g-recaptcha btn btn-primary" type="submit" id="_edit_raw">修改字幕文件</button>
+
+                    <button class="g-recaptcha btn btn-primary" type="submit" id="_edit_raw">修改字幕源文件</button>
 
                 <button class="g-recaptcha btn btn-primary" type="submit" id="_save_text">保存修改</button>
 
@@ -89,40 +96,16 @@
                 <div class="card-body">
                     如有修改,请先保存
                     <div  style="display: flex;flex-direction: row;text-align: center;justify-content:space-around" >
-                        <a href="#">vtt格式</a>
-                        <a href="#">srt格式</a>
-                        <a href="#">ass格式</a>
-                        <a href="#">ssa格式</a>
+                        <a href="#" id="vtt_download" target="_blank">vtt格式</a>
+                        <a href="#" id="srt_download" target="_blank">srt格式</a>
+{{--                        <a href="#" id="ass_download" target="_blank">ass格式</a>--}}
+{{--                        <a href="#" id="ssa_download" target="_blank">ssa格式</a>--}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade " id="deleteTextModal" tabindex="-1" role="dialog" aria-labelledby="deleteTextModalable">
-        <div class="modal-dialog" role="document" >
-            <div class="modal-content">
-                <div class="modal-header">
 
-                    <h2>是否确认删除?</h2>
-
-                </div>
-                <div class="modal-body flex-center">
-                    <div  id="_zm_del_text_box">
-
-                    </div>
-                    <div class="form-group row mb-0">
-                        <div >
-                            <button type="button" id="_delete_btn" class="btn btn-danger">
-                                确定
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
     <div class="modal fade " id="rawTextModal" tabindex="-1" role="dialog" aria-labelledby="rawTextModalable">
         <div class="modal-dialog" role="document" >
             <div class="modal-content"  style="width: 700px;">
@@ -148,27 +131,7 @@
 
         </div>
     </div>
-    <div class="modal fade " id="editTextModal" tabindex="-1" role="dialog" aria-labelledby="editTextModalable">
-        <div class="modal-dialog" role="document" >
-            <div class="modal-content">
 
-                <div class="modal-body flex-center">
-                    <div  id="_zm_edit_text_box">
-
-                    </div>
-                    <div class="form-group row mb-0">
-                        <div >
-                            <button type="button" id="_edit_btn" class="btn btn-primary">
-                                确定
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
     <div class="modal fade " id="insertTextModal" tabindex="-1" role="dialog" aria-labelledby="insertTextModalable">
 
 
@@ -176,7 +139,7 @@
             <div class="modal-content">
                 <div class="modal-header">
 
-                    <h2>请输入字幕</h2>
+                    <h2>编辑字幕</h2>
 
                 </div>
                 <div class="modal-body flex-center" >
@@ -194,14 +157,15 @@
                             <label for="zm_text" class="col-md-4 col-form-label text-md-right">字幕内容</label>
 
                             <div class="col-md-6" style="width: 400px;">
+                                <input id="_zm_id" type="hidden" value="0">
                                 <textarea id="_zm_text" class="form-control " name="zm_text" value="" required="" ></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="zm_duration" class="col-md-4 col-form-label text-md-right">字幕持续时长(秒)</label>
+                            <label for="zm_duration" class="col-md-4 col-form-label text-md-right">字幕结束时间(秒)</label>
 
                             <div class="col-md-6" style="width: 400px;">
-                                <input id="_zm_duration" type="text" class="form-control " name="zm_duration" value="1.0" >
+                                <input id="_zm_end_time" type="text" class="form-control " name="zm_end_time" value="1.0" >
 
                             </div>
                         </div>
@@ -210,8 +174,11 @@
 
                         <div class="form-group row mb-0">
                             <div >
-                                <button type="button" id="_insert_btn" class="btn btn-primary">
-                                    插入
+                                <button type="button" id="_edit_btn" class="btn btn-primary">
+                                    确定
+                                </button>
+                                <button type="button" id="_delete_btn" class="btn btn-danger">
+                                    删除
                                 </button>
                             </div>
                         </div>
@@ -221,80 +188,81 @@
             </div>
         </div>
     </div>
+
 {{--    <script src="https://vjs.zencdn.net/7.8.2/video.js"></script>--}}
 
 
+    <script src="/js/bootstrap-switch.min.js" defer></script>
+
+    <link href="/css/bootstrap-switch.min.css" rel="stylesheet" />
 
     <script>
-        var vid = document.getElementById("my_video_1");
+        $(function(){
+            $('[name="smsenable"]').bootstrapSwitch({
+                onText:"视频",
+                offText:"音频",
+                onColor:"success",
+                offColor:"info",
+                size:"small",
+                onSwitchChange:function(event,state){
+                    if(state==true){
+                        switchToVideo();
+                    }else{
+                        switchToAudio();
+                    }
+                }
+            })
+        })
+
+
 
         var v = new Vtt('');
+        var vid = document.getElementById("my_video_1");
         vid.addEventListener("timeupdate", function () {
             v.playTo(vid.currentTime)
-            $("#_zm_start_time").val(vid.currentTime)
-            console.log(vid.currentTime);
         }, false);
         $(document).ready(function(){
             //add
             $("#_insert_new_text").on('click',function (e) {
                 vid.pause();
-                $('#_zm_text').val('');
+                if(v.showedCueList.length>0){
+                    cue = v.showedCueList[0];
+                    text = cue.text;
+                    start_time = cue.startTime;
+                    end_time = cue.endTime;
+                    id = cue.id;
+                }else{
+                    text = '';
+                    start_time = vid.currentTime;
+                    end_time = parseFloat(vid.currentTime)+1;
+                    id=0;
+                }
+                $('#_zm_id').val(id);
+                $('#_zm_text').val(text);
+                $('#_zm_start_time').val(start_time);
+                $('#_zm_end_time').val(end_time);
                 $('#insertTextModal').modal()
             });
 
-            $("#_insert_btn").on('click',function (e) {
+            $("#_edit_btn").on('click',function (e) {
 
-                start = $('#_zm_start_time').val();
+                start = parseFloat($('#_zm_start_time').val());
+                end = parseFloat($('#_zm_end_time').val());
                 text = $('#_zm_text').val();
-                end =  parseFloat($('#_zm_duration').val())+ parseFloat(start);
-                v.insertCue(start,end,text);
+                id = $('#_zm_id').val();
+                if(id==0 || id=="0") {
+                    if (text)
+                    v.insertCue(start,end,text);
+                }else{
+                    v.updateCue(id,start,end,text);
+                }
                 $('#insertTextModal').modal("hide");
                 vid.play();
             });
-            //edit
-            $("#_edit_current_text").on('click',function (e) {
-                vid.pause();
-                var str ='';
-                if(v.showedCueList.length>0){
-                    for(i=0;i<v.showedCueList.length;i++){
-                        cue = v.showedCueList[i];
-                        str +='<textarea  class="form-control " name="zm_text"  required="" >'+cue.text+'</textarea>';
-                    }
-                }else{
-                    str = "当前位置没有字幕";
-                }
 
-                $('#_zm_edit_text_box').html(str);
-                $('#editTextModal').modal()
-            });
-            $("#_edit_btn").on('click',function (e) {
-                list = $('#_zm_edit_text_box textarea');
-                for(i=0;i<list.size();i++)
-                {
-                    v.showedCueList[i].text = list.eq(i).val()
-                }
-                $('#editTextModal').modal("hide");
-                vid.play();
-            });
-            //del
-            $("#_delete_current_text").on('click',function (e) {
-                $('#deleteTextModal').modal();
-                var str ='<div class="mb-4">字幕内容:</div>';
-                if(v.showedCueList.length>0){
-                    for(i=0;i<v.showedCueList.length;i++){
-                        cue = v.showedCueList[i];
-                        str +='<div  >'+cue.text+'</div>';
-                    }
-                }else{
-                    str = "当前位置没有字幕";
-                }
-
-                $('#_zm_del_text_box').html(str);
-                vid.pause();
-            });
             $("#_delete_btn").on('click',function (e) {
                 v.deleteCurrentText();
-                $('#deleteTextModal').modal("hide");
+                $('#insertTextModal').modal("hide");
                 vid.play();
             });
             $("#_save_text").on('click',function (e) {
@@ -318,9 +286,15 @@
             $("#_raw_btn").on('click',function (e) {
                 str = $("#raw_text").val();
                 str = str.trim()+"\n\n";
-                v2 = new Vtt(str);
-                v2.parse();
-                if(v2.cueList.length>0){
+                error =0;
+                try{
+                    v2 = new Vtt(str,1);
+                    v2.parse();
+                }catch (e) {
+                    error = 1;
+                }
+
+                if(!error && v2.cueList.length>0){
                     v.cleanShow();
                     v = v2;
                     $('#rawTextModal').modal("hide")
@@ -354,21 +328,104 @@
             return last[0];
         }
         $resource_id =getResourceId();
+        $("#vtt_download").attr('href','/api/subtitles/resource/'+$resource_id);
+        $("#srt_download").attr('href','/api/subtitles/srt/resource/'+$resource_id);
+        $("#ass_download").attr('href','/api/subtitles/ass/resource/'+$resource_id);
+        $("#ssa_download").attr('href','/api/subtitles/ssa/resource/'+$resource_id);
+
+        var mp4 = null;
+        var audio = [];
         getResource($resource_id,{
             'success':function (result) {
-                if (result.is_payed){
-                    $url = result.image_original_url;
-                    $("#_download_id").attr('href',$url);
-                    $("#_download_id_box").show();
-                    $("#_pay_box").hide();
-                    if (checkPaymentHandle)
-                    {
-                        clearInterval(checkPaymentHandle);
-                    }
+                if (result.mp4){
+                    mp4 = result.mp4.url;
                 }
+                if (result.ogg){
+                    audio.push(result.ogg.url);
+                }
+                if (result.mp3){
+                    audio.push(result.ogg.mp3);
+                }
+                if (result.wav){
+                    audio.push(result.ogg.wav);
+                }
+                getzm($resource_id);
+                play();
             }
-        })
-        getzm($resource_id)
+        },{'preview':1});
+        function getVideoDom($urls) {
+
+                $source ="";
+                for(i=0;i<$urls.length;i++){
+                    $source = $source+'<source src="'+$urls[i]+'" />';
+                }
+            $html ='<video id="my_video_1" class="video-js vjs-default-skin"\n' +
+                '                           controls preload="auto"   data-setup="{}" autoplay="flase">\n' +
+                '                        {{--                    <source src="http://demo.mimvp.com/html5/take_you_fly.ogg" />--}}\n' +
+                '                        {{--                    <source src="http://127.0.0.1/1.mp3" />--}}\n' +
+                $source +
+                '                        {{--                    <source src="http://demo.mimvp.com/html5/take_you_fly.wav" />--}}\n' +
+                '                        <p class="vjs-no-js">\n' +
+                '                            To view this video please enable JavaScript, and consider upgrading to a\n' +
+                '                            web browser that\n' +
+                '                            <a href="https://videojs.com/html5-video-support/" target="_blank"\n' +
+                '                            >supports HTML5 video</a\n' +
+                '                            >\n' +
+                '                        </p>\n' +
+                '                    </video>';
+                return $html;
+        }
+        function switchToAudio() {
+            if (audio.length<=0){
+                alert("没有音频数据");
+                return ;
+            }
+            $("#_video_box").html(getVideoDom(audio));
+            vid = document.getElementById("my_video_1");
+            vid.addEventListener("timeupdate", function () {
+                v.playTo(vid.currentTime)
+                $("#_zm_start_time").val(vid.currentTime)
+                console.log(vid.currentTime);
+            }, false);
+        }
+        function switchToVideo() {
+            if (!mp4){
+                alert("没有视频数据");
+                return ;
+            }
+            $("#_video_box").html(getVideoDom([mp4]));
+            vid = document.getElementById("my_video_1");
+            vid.addEventListener("timeupdate", function () {
+                v.playTo(vid.currentTime)
+                $("#_zm_start_time").val(vid.currentTime)
+                console.log(vid.currentTime);
+            }, false);
+        }
+        function play() {
+            $info ="";
+            if (!mp4 && audio.length<=0){
+                info = "没有对应的音视频数据,请等待处理,或者联系管理员";
+            }
+            if (!mp4 && audio.length>0){
+                info = "没有视频或正在解析中,请使用音频校对";
+            }
+            $("#_text-info").html(info);
+
+            if(mp4){
+                $('[name="smsenable"]').bootstrapSwitch('state', true);
+                // $("#_video_box").html(getVideoDom([mp4]));
+            }else if(audio.length>0){
+                $("#_video_box").html(getVideoDom(audio));
+                $('[name="smsenable"]').bootstrapSwitch('state', false);
+            }
+            vid = document.getElementById("my_video_1");
+            vid.addEventListener("timeupdate", function () {
+                v.playTo(vid.currentTime)
+                $("#_zm_start_time").val(vid.currentTime)
+                console.log(vid.currentTime);
+            }, false);
+        }
+
 
 
     </script>

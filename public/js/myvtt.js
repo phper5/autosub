@@ -12,7 +12,7 @@ var alignSetting = {
     "right": true
 };
 
-function Vtt( buffer) {
+function Vtt( buffer,throw_error=0) {
     /**
      * 待解析文本
      */
@@ -35,6 +35,7 @@ function Vtt( buffer) {
     this.showedCueList = [];
 
     this.max_id = 0;
+    this.throw_error = throw_error;
 
 }
 
@@ -95,6 +96,18 @@ Vtt.prototype.playTo = function(time){
 
 function up(x,y){
     return x.startTime -y.startTime;
+}
+Vtt.prototype.updateCue = function(id,startTime,endTime,text) {
+    for ($i=0;$i<this.cueList.length;$i++) {
+        $cue = this.cueList[$i];
+        if ($cue.id == id){
+            $cue.text = text;
+            $cue.startTime = parseFloat(startTime);
+            $cue.endTime = parseFloat(endTime);
+            this.cleanShow();
+            break;
+        }
+    }
 }
 Vtt.prototype.insertCue = function (startTime,endTime,text) {
     cue = new VTTCue(startTime, endTime, text);
@@ -220,6 +233,9 @@ Vtt.prototype.parse = function () {
                         parseCue(line, self.cue, new Array());
                     } catch (e) {
                         console.log(e);
+                        if (this.throw_error){
+                            throw e;
+                        }
                         //self.reportOrThrowError(e);
                         // In case of an error ignore rest of the cue.
                         self.cue = null;
@@ -256,6 +272,9 @@ Vtt.prototype.parse = function () {
         }
     } catch (e) {
         //self.reportOrThrowError(e);
+        if (this.throw_error){
+            throw e;
+        }
         console.log(e);
 
         // If we are currently parsing a cue, report what we have.
