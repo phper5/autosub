@@ -32,8 +32,8 @@ class ResourceController
         }
         $filename = $filename.'-'.$resource->language.'.'.$type;
         $sub = trim($resource->subtitle);
-        $sub = trim($resource->subtitle,'WEBVTT');
-        $sub = trim($resource->subtitle);
+        $sub = trim($sub,'WEBVTT');
+        $sub = trim($sub);
         $str = [];
         foreach (explode("\n",$sub) as $line) {
             if (strstr($line,'-->') && (substr_count($line,':')==4 || substr_count($line,':')==2)){
