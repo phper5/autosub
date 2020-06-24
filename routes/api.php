@@ -34,6 +34,7 @@ Route::get('payment/resource/{id}', 'PaymentController@getOne');
 
 
 Route::get('subtitles/resource/{id}', 'Subtitle\ResourceController@getOne');
+Route::put('subtitles/resource/{id}', 'Subtitle\ResourceController@putOne');
 Route::get('subtitles/{type}/resource/{id}', 'Subtitle\ResourceController@getOneByType');
 
 

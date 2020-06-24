@@ -21,6 +21,11 @@ class ResourceController
         $filename = $filename.'-'.$resource->language.'.vtt';
         return response($resource->subtitle)->header('Content-Disposition','attachment;filename="'.$filename.'"');
     }
+    public function putOne(Request $request,$id)
+    {
+        $resource = Resource::find($id);
+        $resource->subtitle = $request->input('subtitle');
+    }
     public function getOneByType(Request $request,$type,$id) {
         $resource = Resource::find($id);
         $filename = $resource->filename;

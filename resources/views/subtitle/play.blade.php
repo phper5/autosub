@@ -45,7 +45,7 @@
         </div>
         <div class="form-group row">
             <div class="col-md-2">预览方式 <input type="checkbox" name="smsenable" id="smsenable" /></div>
-            <div class="col-md-10 " id="_text-info"> 提示信息</div>
+            <div class="col-md-10 " id="_text-info"> </div>
         </div>
         <div class=" position-ref">
             <div class="overflow-hidden" style="background: #000;padding: 5px;">
@@ -178,7 +178,7 @@
                                     确定
                                 </button>
                                 <button type="button" id="_delete_btn" class="btn btn-danger">
-                                    删除
+                                    删除该字幕
                                 </button>
                             </div>
                         </div>
@@ -340,6 +340,9 @@
                 if (result.mp4){
                     mp4 = result.mp4.url;
                 }
+                if(!mp4 && result.type=="video") {
+                    mp4 = result.url;
+                }
                 if (result.ogg){
                     audio.push(result.ogg.url);
                 }
@@ -402,7 +405,7 @@
             }, false);
         }
         function play() {
-            $info ="";
+            info ="";
             if (!mp4 && audio.length<=0){
                 info = "没有对应的音视频数据,请等待处理,或者联系管理员";
             }
@@ -415,15 +418,16 @@
                 $('[name="smsenable"]').bootstrapSwitch('state', true);
                 // $("#_video_box").html(getVideoDom([mp4]));
             }else if(audio.length>0){
-                $("#_video_box").html(getVideoDom(audio));
                 $('[name="smsenable"]').bootstrapSwitch('state', false);
+                $("#_video_box").html(getVideoDom(audio));
             }
             vid = document.getElementById("my_video_1");
             vid.addEventListener("timeupdate", function () {
-                v.playTo(vid.currentTime)
-                $("#_zm_start_time").val(vid.currentTime)
+                v.playTo(vid.currentTime);
+                $("#_zm_start_time").val(vid.currentTime);
                 console.log(vid.currentTime);
             }, false);
+            vid.play();
         }
 
 
