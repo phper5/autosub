@@ -35,7 +35,7 @@ class ResourceController
         $sub = trim($resource->subtitle,'WEBVTT');
         $sub = trim($resource->subtitle);
         $str = [];
-        foreach (explode("\n",$str) as $line) {
+        foreach (explode("\n",$sub) as $line) {
             if (strstr($line,'-->') && (substr_count($line,':')==4 || substr_count($line,':')==2)){
                 $line = str_replace('.',',',$line);
             }
