@@ -320,6 +320,7 @@
                 'success':function ($data) {
                     v = new Vtt($data);
                     v.parse();
+                    play();
                 }
             },'text');
             console.log('start');
@@ -357,7 +358,7 @@
                     audio.push(result.ogg.wav);
                 }
                 getzm($resource_id);
-                play();
+
             }
         },{'preview':1});
         function getVideoDom($urls) {
@@ -431,7 +432,7 @@
                 $("#_zm_start_time").val(vid.currentTime);
                 console.log(vid.currentTime);
             }, false);
-            vid.play();
+            // vid.play();
         }
 
 
