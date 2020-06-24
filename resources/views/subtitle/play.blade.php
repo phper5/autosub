@@ -12,6 +12,7 @@
             min-height: 80px;
             background: #000;
             color: #fff;
+            cursor: pointer;
         }
         #zmlist .zmtext{
             padding: 10px;
@@ -147,7 +148,7 @@
                         <div class="form-group row" >
                             <label for="zm_start_time" class="col-md-4 col-form-label text-md-right">字幕开始时间(秒)</label>
 
-                            <div class="col-md-6" style="width: 400px;">
+                            <div class="col-md-6" >
                                 <input id="_zm_start_time" type="text" class="form-control " name="zm_start_time" value="0" required="" >
 
                             </div>
@@ -156,15 +157,15 @@
                         <div class="form-group row">
                             <label for="zm_text" class="col-md-4 col-form-label text-md-right">字幕内容</label>
 
-                            <div class="col-md-6" style="width: 400px;">
+                            <div class="col-md-6"  >
                                 <input id="_zm_id" type="hidden" value="0">
-                                <textarea id="_zm_text" class="form-control " name="zm_text" value="" required="" ></textarea>
+                                <textarea id="_zm_text" class="form-control " name="zm_text" value="" required=""  style="min-height: 200px;"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="zm_duration" class="col-md-4 col-form-label text-md-right">字幕结束时间(秒)</label>
 
-                            <div class="col-md-6" style="width: 400px;">
+                            <div class="col-md-6">
                                 <input id="_zm_end_time" type="text" class="form-control " name="zm_end_time" value="1.0" >
 
                             </div>
@@ -223,6 +224,9 @@
         }, false);
         $(document).ready(function(){
             //add
+            $("#zmlist").on('click',function (e) {
+                $("#_insert_new_text").click();
+            });
             $("#_insert_new_text").on('click',function (e) {
                 vid.pause();
                 if(v.showedCueList.length>0){
@@ -414,12 +418,12 @@
             }
             $("#_text-info").html(info);
 
-            if(mp4){
-                $('[name="smsenable"]').bootstrapSwitch('state', true);
-                // $("#_video_box").html(getVideoDom([mp4]));
-            }else if(audio.length>0){
+            if(audio.length>0){
                 $('[name="smsenable"]').bootstrapSwitch('state', false);
                 $("#_video_box").html(getVideoDom(audio));
+            }else if(mp4){
+                $('[name="smsenable"]').bootstrapSwitch('state', true);
+                // $("#_video_box").html(getVideoDom([mp4]));
             }
             vid = document.getElementById("my_video_1");
             vid.addEventListener("timeupdate", function () {
