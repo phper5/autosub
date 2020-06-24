@@ -41,7 +41,7 @@ class Task extends Model
             if ($resource = Resource::find($this->source_file))
             {
 
-                $data['source_file'] = [$resource->toResponse([])];
+                $data['source_file'] = [$resource->toResponse(['flac'=>$config['flac']??0])];
             }
         }
 

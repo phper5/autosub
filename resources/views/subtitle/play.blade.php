@@ -353,7 +353,22 @@
             var last = vars[vars.length-1].split("?");
             return last[0];
         }
-        getzm(getResourceId())
+        $resource_id =getResourceId();
+        getResource($resource_id,{
+            'success':function (result) {
+                if (result.is_payed){
+                    $url = result.image_original_url;
+                    $("#_download_id").attr('href',$url);
+                    $("#_download_id_box").show();
+                    $("#_pay_box").hide();
+                    if (checkPaymentHandle)
+                    {
+                        clearInterval(checkPaymentHandle);
+                    }
+                }
+            }
+        })
+        getzm($resource_id)
 
 
     </script>

@@ -28,6 +28,49 @@ class Resource extends Model
             'created_at'=>$this->created_at->timestamp,
             'url' => $this->getUrl(null,null,$auto_orient,false,['download_as'=>$this->filename])
         ];
+        if (isset($options['flac'])&&$options['flac']) {
+            $flac_id = 0;
+            if (isset($this->flac)){
+                $flac_id = $this->flac;
+            }elseif (isset($this->ogg)){
+                $flac_id = $this->ogg;
+            }elseif (isset($this->mp3)){
+                $flac_id = $this->mp3;
+            }elseif (isset($this->wav)){
+                $flac_id = $this->wav;
+            }
+            if ($flac_id) {
+                $flac = Resource::find($flac_id);
+                $data['flac'] = $flac->toResponse();
+            }
+        }
+        if (isset($options['preview'])&&$options['preview']) {
+
+            if (isset($this->mp4)){
+                if ($mp4 = Resource::find($this->mp4))
+                {
+                    $data['mp4'] = $mp4->toResponse();
+                }
+            }
+            if (isset($this->ogg)){
+                if ($mp4 = Resource::find($this->ogg))
+                {
+                    $data['ogg'] = $mp4->toResponse();
+                }
+            }
+            if (isset($this->mp3)){
+                if ($mp4 = Resource::find($this->mp3))
+                {
+                    $data['mp3'] = $mp4->toResponse();
+                }
+            }
+            if (isset($this->wav)){
+                if ($mp4 = Resource::find($this->wav))
+                {
+                    $data['wav'] = $mp4->toResponse();
+                }
+            }
+        }
         $max_width = null;
 
 //        if ($this->type == 'image')
