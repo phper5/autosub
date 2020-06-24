@@ -4,6 +4,7 @@
 namespace App\Api\Subtitle;
 
 
+use App\Api\Response;
 use App\Resource;
 use Illuminate\Http\Request;
 
@@ -25,6 +26,7 @@ class ResourceController
     {
         $resource = Resource::find($id);
         $resource->subtitle = $request->input('subtitle');
+        return (new Response())->setData(['subtitle'=>$resource->subtitle])->Json();
     }
     public function getOneByType(Request $request,$type,$id) {
         $resource = Resource::find($id);
