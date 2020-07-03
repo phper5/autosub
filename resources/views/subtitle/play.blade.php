@@ -249,7 +249,7 @@
                     end_time = parseFloat(vid.currentTime)+1;
                     id=0;
                 }
-                $('#_zm_current_time').val(cue.startTime);
+                $('#_zm_current_time').val(cue.currentTime);
                 $('#_zm_id').val(id);
                 $('#_zm_text').val(text);
                 $('#_zm_start_time').val(start_time);
