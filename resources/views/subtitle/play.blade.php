@@ -146,13 +146,21 @@
                 <div class="modal-body flex-center" >
 
                         <div class="form-group row" >
-                            <label for="zm_start_time" class="col-md-4 col-form-label text-md-right">字幕开始时间(秒)</label>
+                            <label for="_zm_current_time" class="col-md-4 col-form-label text-md-right">当前时间(秒)</label>
 
                             <div class="col-md-6" >
-                                <input id="_zm_start_time" type="text" class="form-control " name="zm_start_time" value="0" required="" >
+                                <input id="_zm_current_time" type="text" class="form-control " name="zm_current_time" value="0" required="" >
 
                             </div>
                         </div>
+                    <div class="form-group row" >
+                        <label for="_zm_start_time" class="col-md-4 col-form-label text-md-right">字幕开始时间(秒)</label>
+
+                        <div class="col-md-6" >
+                            <input id="_zm_start_time" type="text" class="form-control " name="zm_start_time" value="0" required="" >
+
+                        </div>
+                    </div>
 
                         <div class="form-group row">
                             <label for="zm_text" class="col-md-4 col-form-label text-md-right">字幕内容</label>
@@ -163,7 +171,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="zm_duration" class="col-md-4 col-form-label text-md-right">字幕结束时间(秒)</label>
+                            <label for="_zm_duration" class="col-md-4 col-form-label text-md-right">字幕结束时间(秒)</label>
 
                             <div class="col-md-6">
                                 <input id="_zm_end_time" type="text" class="form-control " name="zm_end_time" value="1.0" >
@@ -241,6 +249,7 @@
                     end_time = parseFloat(vid.currentTime)+1;
                     id=0;
                 }
+                $('#_zm_current_time').val(cue.startTime);
                 $('#_zm_id').val(id);
                 $('#_zm_text').val(text);
                 $('#_zm_start_time').val(start_time);
